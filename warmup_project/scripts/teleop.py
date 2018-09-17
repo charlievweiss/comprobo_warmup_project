@@ -66,7 +66,7 @@ class PublishAction(object):
             self.interpretKey() # sets velocity according to key
             # Publish action
             self.pub.publish(Twist(linear=Vector3(x=self.linearVel), angular=Vector3(z=self.angularVel)))
-            print('Linear: ' + str(self.linearVel) + ', Angular: ' + str(self.angularVel))
+            #print('Linear: ' + str(self.linearVel) + ', Angular: ' + str(self.angularVel))
 
     def exit_handler(self):
         # emergency exit
@@ -76,21 +76,4 @@ class PublishAction(object):
 if __name__ == '__main__':
     node = PublishAction()
     node.run()
-
-""" this is example code for getting keyboard input
-def getKey():
-    tty.setraw(sys.stdin.fileno())
-    select.select([sys.stdin], [], [], 0)
-    key = sys.stdin.read(1)
-    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
-    return key
-
-settings = termios.tcgetattr(sys.stdin)
-key = None
-
-while key != '\x03':
-    key = getKey()
-    print key
-
-# till here """
 
