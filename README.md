@@ -68,12 +68,19 @@ I also had trouble integrating different behaviors together. It would have been 
 There are many improvements I would like to implement! The most appealing one is one I mentioned in the Challenges section-- integrating behavior into one executable would vastly streamline robot control and testing. Alongside that, here are some behavior-specific improvements I'd like to make:
 
 ### Driving in a Square
-It would be very cool to get this odometry based! 
+
+It would be very cool to get this odometry based! I imagine it would allow for more specific adjustments while driving the square-- the current method has some variance, and can become offset rather quickly.
 
 ### Obstacle Avoidance
+
+A clear improvement here is to have the Neato avoiding obstacles while traveling toward a specific destination. This would also require odometry-based movement, with the robot constantly updating its surroundings to find the clearest pathway toward its destination.
+
 ### Wall Following
 
+My implementation has some clear limits. Currently, it only works if you have it headed toward a known wall in the first place-- the code identifies an obstacle, not an actual wall structure. A more interesting (and difficult) method could involve taking in the surroundings and identifing nearby walls or corners, and specifically targeting them in order to follow. This would prevent isntances of, say, driving off into infinity at a corner, and getting caught between two non-wall obstacles unsure where to turn next.
+
 ## Going Forward
-- envisioning integrating structure
-- abandoning things in a time constraint
-- 
+
+Some key things I'd like to bring forward in future robotics work is a more solid structure of code integration. Setting up essentials like visualizing and emergency stops in a way that can be quickly integrated into any behavior function would be immensely valuable.
+
+That said, another key takeaway with this project has been to recognize when I'm stuck in a rabbit hole, and call it quits earlier in order to pursue other work. I believe I would have been able to create some form of person following or the finite-state-controller had I not spent so much time struggling with visualization code.
