@@ -23,7 +23,21 @@ I elected for a timing-based approach for this, rather than an odometry-based on
 
 ### Obstacle Avoidance
 
+I implemented a simple concept for obstacle avoidance. First, check for a reading of an object in front of the Neato (in a span of 10 degrees across the front axis of the robot). If that object is less than 1.25 meters away, change the linear velocity to 0 m/s and the angular velocity to 1 rad/s. The Neato will turn until it no longer detects an object in front of it, and continue moving forward at that point.
+
 ### Wall Following
+
+This one was a little trickier. The basic way I thought about this was to imagine lines pointing out from the Neato every 45 degrees around its Z axis (with straight ahead being 0 degrees), where the lines end at the first obstacle they encounter. When the Neato is parallel to a wall on its right side, the lines at 315 (right-front) and 225 (right-back) degrees will be equal. Similarly, when the Neato is parallel to a wall on its left side, the lines at 45 (left-front) and 135 (left-back) will be equal. So the goal is to achieve that state:
+
+- First, find the distances at each of those points (45, 135, 225, and 315 degrees)
+  - To account for sensor error, I took the distances in a range around those target points, and took the maximum distance of those. That counters instances of non-values.
+- Compare the distances on the right-front and right-back positions. 
+  - If the right-front distance is longer, the robot needs to turn right to become parallel to the wall. If the right-back distance is longer, it needs to turn left.
+  - When the distances are equal (within reasonable tolerance), continue forward.
+- Do the same for the left-front and left-back positions.
+
+If all goes well, the Neato should align itself along the wall, once it has encountered one. It is also good to have detections at the front and back to avoid head-on collisions, and at the sides to maintain an even distance from the wall.
+
 
 ## Code Structure
 
