@@ -1,7 +1,7 @@
 # Introductory Robotics Project
 First implementations of classic robotic behavior: teleoperations, driving in a square, obstacle avoidance, and wall following.**
 
-## High-level
+## High-level Structures
 
 There are various challenges in this project. Beyond the initial hurdles of understanding ROS nodes and topics, the physical limits of your robot, and general documentation on different "messages," there is the additional challenge of creating a system that is beautifully designed and coded. Given that this was my first time working with ROS, with some significant time constraints, I elected to get a quick-and-dirty first pass to my goals, and hope to expand from there in the future.
 
@@ -41,16 +41,39 @@ If all goes well, the Neato should align itself along the wall, once it has enco
 
 ## Code Structure
 
+I coded this in python with an object-oriented framework, using one Class object per behavior/node. An individual class would look something like this:
+
+- class Behavior(Object)
+  - Initialize variables
+    - This is where I initialize the behavior's node, such as 'wall_following'
+    - This is also where I define the topics to publish or subscribe to, such as '/scan' or '/cmd_vel'
+    - It can be a very long list with different message parameters
+  - Various helper functions
+    - For example, ObstacleAvoidance required these functions:
+      - process_scan(), to get the data from the lidar scans
+      - find_max_distance(), to filter out erroneous readings
+      - check_obstacle(), to check if there is an object in front of the robot
+      - make_horizontal(), to compare distances and set velocities accordingly
+  - Run() function
+    - This calls the helper functions and continously publishes velocity updates in a Twist message to '/cmd_vel'
+
 ## Challenges
+
+I encountered many, many challenges in this project. The deepest rabbit hole I fell down was in trying to visualize the distances coming out of the Neato in wall-following mode. I thought it would be helpful to see what the comparison looked like-- however, I couldn't figure out how to publish multiple arrow markers in a nice, clean way, and had to abandon the thought.
+
+I also had trouble integrating different behaviors together. It would have been very nice to make use of my object-oriented structure to call one behavior class from another, and have a catch-all program running to control the Neato. Instead, I ended up running teleoperations from one terminal, and my specific behavior from another, with the latter always overriding the former. This caused some interesting hassle when things went wrong-- especially because I was also unable to call my emergency stop for the same reason. I have yet to solve this.
 
 ## Improvements
 
-## Thoughts About Person-Following and Finite-State Control
+There are many improvements I would like to implement! The most appealing one is one I mentioned in the Challenges section-- integrating behavior into one executable would vastly streamline robot control and testing. Alongside that, here are some behavior-specific improvements I'd like to make:
 
-- describe at high-level. relevant diagrams. discuss strategy
-- finite state controller :(
-- how was code structured. detail object-oriented structure
-- challenges
-- improvements
-- key takeaways for future robotic programming projects
+### Driving in a Square
+It would be very cool to get this odometry based! 
 
+### Obstacle Avoidance
+### Wall Following
+
+## Going Forward
+- envisioning integrating structure
+- abandoning things in a time constraint
+- 
